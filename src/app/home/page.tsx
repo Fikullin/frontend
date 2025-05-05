@@ -122,7 +122,7 @@ export default function DashboardPage() {
         ].map(({ img, title, value }, index) => (
           <div
             key={index}
-            className={`bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg flex flex-col items-center text-white transform transition-all duration-500 ${
+            className={`bg-gray-900 bg-opacity-95 rounded-lg p-6 shadow-lg flex flex-col items-center text-white transform transition-all duration-500 ${
               menuVisibleIndex >= index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
@@ -138,7 +138,7 @@ export default function DashboardPage() {
       </section>
 
       <section
-        className={`bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg text-white transform transition-all duration-500 ${
+        className={`bg-gray-900 bg-opacity-95 rounded-lg p-6 shadow-lg text-white transform transition-all duration-500 ${
           menuVisibleIndex >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
@@ -155,7 +155,7 @@ export default function DashboardPage() {
       {extraSections.map(({ img, alt, caption, description }, index) => (
         <section
           key={index}
-          className={`bg-gray-900 bg-opacity-80 rounded-lg p-6 shadow-lg flex flex-col md:flex-row items-center text-white transform transition-all duration-500 ${
+          className={`bg-gray-900 bg-opacity-95 rounded-lg p-6 shadow-lg flex flex-col md:flex-row items-center text-white transform transition-all duration-500 ${
             extraVisibleIndex >= index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
