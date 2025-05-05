@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -10,10 +11,11 @@ const navItems = [
 ];
 
 export default function Navbar() {
-  const [show, setShow] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const router = useRouter();
+  const [show, setShow] = React.useState(true);
+  const [lastScrollY, setLastScrollY] = React.useState(0);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       if (currentScrollY > lastScrollY && currentScrollY > 50) {
@@ -30,6 +32,10 @@ export default function Navbar() {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
+
+  const handleLoginClick = () => {
+    router.push('/login');
+  };
 
   return (
     <nav
@@ -55,6 +61,7 @@ export default function Navbar() {
           <div>
             <button
               type="button"
+              onClick={handleLoginClick}
               className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-full shadow-md transition duration-300 ease-in-out"
             >
               Login
