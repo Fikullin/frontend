@@ -14,8 +14,19 @@ export default function Navbar() {
   const router = useRouter();
   const [show, setShow] = React.useState(true);
   const [lastScrollY, setLastScrollY] = React.useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<unknown>(null);
 
   React.useEffect(() => {
+    // Periksa status login
+    const token = localStorage.getItem('token');
+    const userData = localStorage.getItem('user');
+    
+    if (token && userData) {
+      setIsLoggedIn(true);
+      setUser(JSON.parse(userData));
+    }
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       if (currentScrollY > lastScrollY && currentScrollY > 50) {
@@ -35,6 +46,18 @@ export default function Navbar() {
 
   const handleLoginClick = () => {
     router.push('/login');
+  };
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    setUser(null);
+    router.push('/');
+  };
+
+  const handleDashboardClick = () => {
+    router.push('/dashboard');
   };
 
   return (
@@ -59,13 +82,34 @@ export default function Navbar() {
             ))}
           </ul>
           <div>
-            <button
-              type="button"
-              onClick={handleLoginClick}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-full shadow-md transition duration-300 ease-in-out"
-            >
-              Login
-            </button>
+            {isLoggedIn ? (
+              <div className="flex items-center space-x-4">
+                {(user as { role?: string })?.role === 'admin' && (
+                  <button
+                    type="button"
+                    onClick={handleDashboardClick}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-full shadow-md transition duration-300 ease-in-out"
+                  >
+                    Dashboard
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={handleLogoutClick}
+                  className="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2 rounded-full shadow-md transition duration-300 ease-in-out"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={handleLoginClick}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-full shadow-md transition duration-300 ease-in-out"
+              >
+                Login
+              </button>
+            )}
           </div>
         </div>
       </div>

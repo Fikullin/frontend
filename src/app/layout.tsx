@@ -7,12 +7,27 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Fungsi untuk memeriksa apakah path saat ini adalah dashboard
+  // Ini akan dijalankan di sisi klien
+  const isDashboardPath = () => {
+    if (typeof window !== 'undefined') {
+      return window.location.pathname.startsWith('/dashboard');
+    }
+    return false;
+  };
+
   return (
     <html lang="en">
       <body>
-        <MainLayout>
-          {children}
-        </MainLayout>
+        {isDashboardPath() ? (
+          // Jika path adalah dashboard, jangan gunakan MainLayout
+          <>{children}</>
+        ) : (
+          // Jika bukan dashboard, gunakan MainLayout seperti biasa
+          <MainLayout>
+            {children}
+          </MainLayout>
+        )}
       </body>
     </html>
   );
