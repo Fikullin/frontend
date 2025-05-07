@@ -80,7 +80,9 @@ export default function DashboardLayout({
   const menuItems = [
     { name: 'Dashboard', icon: <FiHome size={24} />, path: '/dashboard' },
     { name: 'Penerima', icon: <FiUsers size={24} />, path: '/dashboard/recipients' },
-    { name: 'Laporan', icon: <FiFileText size={24} />, path: '/dashboard/reports' },
+    { name: 'Laporan Keuangan', icon: <FiFileText size={24} />, path: '/dashboard/finance' },
+    { name: 'Broadcast', icon: <FiFileText size={24} />, path: '/dashboard/broadcast' },
+    { name: 'Admin', icon: <FiFileText size={24} />, path: '/dashboard/admin' },
   ];
 
   if (isLoading) {

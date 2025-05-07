@@ -2,6 +2,7 @@
 export const API_BASE_URL = 'http://localhost:5000';
 
 // Endpoint API
+// Tambahkan ini ke file api-config.ts yang sudah ada
 const API_ENDPOINTS = {
   AUTH: {
     SIGNIN: `${API_BASE_URL}/api/auth/signin`,
@@ -15,9 +16,33 @@ const API_ENDPOINTS = {
       CREATE: `${API_BASE_URL}/api/recipient`,
       UPDATE: (id: string) => `${API_BASE_URL}/api/recipient/${id}`,
       DELETE: (id: string) => `${API_BASE_URL}/api/recipient/${id}`,
-      EXPORT: `${API_BASE_URL}/api/recipient/export`,
+      EXPORT: `${API_BASE_URL}/api/recipient/export-excel`,
     },
-  },
+    FINANCE: {
+      LIST: `${API_BASE_URL}/api/finance`,
+      DETAIL: (id: string) => `${API_BASE_URL}/api/finance/${id}`,
+      CREATE: `${API_BASE_URL}/api/finance`,
+      UPDATE: (id: string) => `${API_BASE_URL}/api/finance/${id}`,
+      DELETE: (id: string) => `${API_BASE_URL}/api/finance/${id}`,
+      SUMMARY: `${API_BASE_URL}/api/finance/summary`
+    },   
+    ADMIN: {
+      LIST: `${API_BASE_URL}/api/admin/users`,
+      DETAIL: (id: string) => `${API_BASE_URL}/api/admin/users/${id}`,
+      CREATE: `${API_BASE_URL}/api/auth/signup`,
+      UPDATE: (id: string) => `${API_BASE_URL}/api/admin/users/${id}`,
+      DELETE: (id: string) => `${API_BASE_URL}/api/admin/users/${id}`,
+      EXPORT: `${API_BASE_URL}/api/admin/export/admin`
+    },
+    ADMIN_DETAILS: {
+      LIST: `${API_BASE_URL}/api/admin-details`,
+      DETAIL: (id: string) => `${API_BASE_URL}/api/admin-details/${id}`,
+      UPDATE: (id: string) => `${API_BASE_URL}/api/admin-details/${id}`
+    },
+    REPORTS: {
+      PRINT: `${API_BASE_URL}/api/admin/report/print`
+    }
+  }
 };
 
 export default API_ENDPOINTS;

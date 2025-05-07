@@ -1,1 +1,21 @@
+/* Tambahkan ini ke file globals.css yang sudah ada */
+
+/* Meningkatkan keterbacaan input */
+input, select, textarea {
+  font-size: 1rem !important;
+  color: #1f2937 !important; /* text-gray-900 */
+  font-weight: 500 !important;
+}
+
+/* Meningkatkan keterbacaan label */
+label {
+  color: #1f2937 !important; /* text-gray-900 */
+  font-weight: 500 !important;
+}
+
+/* Meningkatkan kontras saat focus */
+input:focus, select:focus, textarea:focus {
+  border-color: #3b82f6 !important; /* border-blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3) !important;
+}
 @import "tailwindcss";

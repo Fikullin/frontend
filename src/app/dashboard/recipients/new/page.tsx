@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { FiArrowLeft, FiSave } from 'react-icons/fi';
-import API_ENDPOINTS, { API_BASE_URL } from '@/utils/api-config';
+import API_ENDPOINTS from '@/utils/api-config';
 
 export default function AddRecipientPage() {
   const router = useRouter();
