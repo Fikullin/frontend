@@ -81,6 +81,7 @@ export default function DashboardLayout({
     { name: 'Dashboard', icon: <FiHome size={24} />, path: '/dashboard' },
     { name: 'Penerima', icon: <FiUsers size={24} />, path: '/dashboard/recipients' },
     { name: 'Laporan Keuangan', icon: <FiFileText size={24} />, path: '/dashboard/finance' },
+    { name: 'InfoBeasiswa', icon: <FiFileText size={24} />, path: '/dashboard/info-beasiswa' },
     { name: 'Broadcast', icon: <FiFileText size={24} />, path: '/dashboard/broadcast' },
     { name: 'Admin', icon: <FiFileText size={24} />, path: '/dashboard/admin' },
   ];

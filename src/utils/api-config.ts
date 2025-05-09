@@ -41,6 +41,13 @@ const API_ENDPOINTS = {
     },
     REPORTS: {
       PRINT: `${API_BASE_URL}/api/admin/report/print`
+    },
+    INFO_BEASISWA: {
+      LIST: `${API_BASE_URL}/api/info-beasiswa`,
+      DETAIL: (id: string) => `${API_BASE_URL}/api/info-beasiswa/${id}`,
+      CREATE: `${API_BASE_URL}/api/info-beasiswa`,
+      UPDATE: (id: string) => `${API_BASE_URL}/api/info-beasiswa/${id}`,
+      DELETE: (id: string) => `${API_BASE_URL}/api/info-beasiswa/${id}`,
     }
   }
 };

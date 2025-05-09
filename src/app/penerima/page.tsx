@@ -1,72 +1,126 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import API_ENDPOINTS, { API_BASE_URL } from '@/utils/api-config';
+import Link from 'next/link';
 
-const profiles = Array(32).fill({
-  nama: 'Ahmad Fauzi',
-  NRP: '123456789',
-  IPK: '3.75',
-  NamaBank: 'Bank Central Asia',
-  NoRek: '9876543210',
-  Departemen: 'Teknik Informatika',
-  NoHp: '+62 812 3456 7890',
-  PekerjaanAyah: 'PNS',
-  PekerjaanIbu: 'Guru',
-  PemberiRekomendasi: 'Dr. Budi Santoso',
-  KeteranganLulus: 'Lulus Tepat Waktu',
-  PekerjaanSaatIni: 'Software Engineer',
-  imgSrc: '/images/profile.jpg',
-});
+interface Recipient {
+  id: number;
+  name: string;
+  photo: string;
+  nrp: string;
+  ipk: number;
+  departemen: string;
+  noHp: string;
+  email: string;
+  namaBank: string;
+  noRekening: string;
+  pekerjaanAyah: string;
+  pekerjaanIbu: string;
+  pemberiRekomendasi: string;
+  pekerjaanSaatIni: string;
+  status: string;
+  keteranganLulus: string;
+}
 
-export default function ManagementPage() {
-  const [visibleIndex, setVisibleIndex] = useState(-1);
+export default function PenerimaPage() {
+  const [recipients, setRecipients] = useState<Recipient[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    let currentIndex = 0;
-    const interval = setInterval(() => {
-      setVisibleIndex(currentIndex);
-      currentIndex++;
-      if (currentIndex >= profiles.length) {
-        clearInterval(interval);
-      }
-    }, 100);
-    return () => clearInterval(interval);
+    fetchRecipients();
   }, []);
 
+  const fetchRecipients = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(API_ENDPOINTS.ADMIN.RECIPIENTS.LIST);
+      setRecipients(response.data.recipients || response.data || []);
+      setError('');
+    } catch (error) {
+      setError('Gagal mengambil data penerima beasiswa');
+      console.error('Error fetching recipients:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen p-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-center">
-        {profiles.map((profile, index) => (
-          <div
-            key={index}
-            className={`bg-gray-900 bg-opacity-70 rounded-3xl shadow-lg overflow-hidden flex flex-col items-center text-center p-6 mx-auto transform transition-all duration-500 ${
-              visibleIndex >= index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-            style={{ minHeight: '320px', maxWidth: '280px' }}
-          >
-            <h2 className="text-2xl font-extrabold mb-4 text-white">{profile.nama}</h2>
-            <img
-              src={profile.imgSrc}
-              alt={profile.nama}
-              className="rounded-full w-32 h-32 object-cover shadow-md mb-4"
-            />
-            <div className="text-left text-gray-300 text-sm space-y-1 w-full">
-              <p><strong>Nama:</strong> {profile.nama}</p>
-              <p><strong>NRP:</strong> {profile.NRP}</p>
-              <p><strong>IPK:</strong> {profile.IPK}</p>
-              <p><strong>Nama Bank:</strong> {profile.NamaBank}</p>
-              <p><strong>No Rek:</strong> {profile.NoRek}</p>
-              <p><strong>Departemen:</strong> {profile.Departemen}</p>
-              <p><strong>No.Hp:</strong> {profile.NoHp}</p>
-              <p><strong>Pekerjaan Ayah:</strong> {profile.PekerjaanAyah}</p>
-              <p><strong>Pekerjaan Ibu:</strong> {profile.PekerjaanIbu}</p>
-              <p><strong>Pemberi Rekomendasi:</strong> {profile.PemberiRekomendasi}</p>
-              <p><strong>Keterangan Lulus:</strong> {profile.KeteranganLulus}</p>
-              <p><strong>Pekerjaan Saat Ini:</strong> {profile.PekerjaanSaatIni}</p>
-            </div>
+    <div className="min-h-screen bg-gradient-to-b from-blue-700 to-blue-900">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold text-center text-white mb-8">Penerima Beasiswa</h1>
+        
+        {error && (
+          <div className="bg-red-100 border-l-4 border-red-900 text-red-700 p-4 mb-6">
+            <p>{error}</p>
           </div>
-        ))}
+        )}
+
+        {isLoading ? (
+          <div className="flex justify-center items-center p-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+          </div>
+        ) : recipients.length === 0 ? (
+          <div className="p-8 text-center text-white">
+            Belum ada data penerima beasiswa
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {recipients.map((recipient) => (
+              <div key={recipient.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="h-48 bg-gray-200 relative">
+                  {recipient.photo ? (
+                    <img
+                      src={`${API_BASE_URL}/${recipient.photo}`}
+                      alt={recipient.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-700 text-lg font-medium">
+                      Tidak ada foto
+                    </div>
+                  )}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                    <h2 className="text-white text-xl font-bold">{recipient.name}</h2>
+                    <p className="text-white text-sm">{recipient.departemen}</p>
+                  </div>
+                </div>
+                <div className="p-4 text-gray-800">
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div>
+                      <p className="font-semibold text-gray-900">NRP:</p>
+                      <p className="text-gray-800">{recipient.nrp}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">IPK:</p>
+                      <p className="text-gray-800">{recipient.ipk}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Status:</p>
+                      <p className="text-gray-800">{recipient.status === 'Active' ? 'Aktif' : 
+                          recipient.status === 'Inactive' ? 'Tidak Aktif' : 
+                          recipient.status === 'Graduated' ? 'Lulus' : 
+                          recipient.status === 'Suspended' ? 'Ditangguhkan' : recipient.status}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Email:</p>
+                      <p className="truncate text-gray-800">{recipient.email || '-'}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <p className="font-semibold mb-1 text-gray-900">Pekerjaan Saat Ini:</p>
+                    <p className="text-gray-800">{recipient.pekerjaanSaatIni || '-'}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 }
+

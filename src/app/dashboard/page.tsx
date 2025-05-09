@@ -119,6 +119,12 @@ export default function Dashboard() {
             >
               <FiUserPlus className="mr-2 text-purple-600" /> Tambah Admin Baru
             </button>
+            <button 
+              onClick={() => router.push('/dashboard/info-beasiswa/new')}
+              className="w-full text-left px-4 py-2 bg-yellow-50 hover:bg-yellow-100 rounded-md flex items-center"
+            >
+              <FiUserPlus className="mr-2 text-yellow-300" /> Tambah Info Beasiswa Baru
+            </button>
           </div>
         </div>
         
