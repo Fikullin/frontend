@@ -35,9 +35,10 @@ const API_ENDPOINTS = {
       EXPORT: `${API_BASE_URL}/api/admin/export/admin`
     },
     ADMIN_DETAILS: {
-      LIST: `${API_BASE_URL}/api/admin-details`,
-      DETAIL: (id: string) => `${API_BASE_URL}/api/admin-details/${id}`,
-      UPDATE: (id: string) => `${API_BASE_URL}/api/admin-details/${id}`
+      LIST: `${API_BASE_URL}/api/admin/admin-details`,
+      DETAIL: (id: string) => `${API_BASE_URL}/api/admin/admin-details/${id}`,
+      UPDATE: (id: string) => `${API_BASE_URL}/api/admin/admin-details/${id}`,
+      CREATE: `${API_BASE_URL}/api/admin/admin-details`
     },
     REPORTS: {
       PRINT: `${API_BASE_URL}/api/admin/report/print`

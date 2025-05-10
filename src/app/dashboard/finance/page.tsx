@@ -116,7 +116,7 @@ export default function FinancePage() {
             </div>
             <div>
               <p className="text-sm text-gray-500 uppercase">TOTAL PEMASUKAN</p>
-              <p className="text-2xl font-semibold">{formatCurrency(summary.totalIncome)}</p>
+              <p className="text-2xl font-semibold text-green-500">{formatCurrency(summary.totalIncome)}</p>
             </div>
           </div>
         </div>
@@ -128,7 +128,7 @@ export default function FinancePage() {
             </div>
             <div>
               <p className="text-sm text-gray-500 uppercase">TOTAL PENGELUARAN</p>
-              <p className="text-2xl font-semibold">{formatCurrency(summary.totalExpense)}</p>
+              <p className="text-2xl font-semibold text-red-600">{formatCurrency(summary.totalExpense)}</p>
             </div>
           </div>
         </div>

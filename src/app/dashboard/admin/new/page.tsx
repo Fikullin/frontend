@@ -54,7 +54,8 @@ export default function AddAdminPage() {
         role: formData.role
       };
 
-      await axios.post(API_ENDPOINTS.ADMIN.ADMIN.CREATE, dataToSend, {
+      // Menggunakan endpoint yang benar
+      await axios.post(API_ENDPOINTS.ADMIN.ADMIN_DETAILS.CREATE, dataToSend, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

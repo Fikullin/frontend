@@ -58,7 +58,7 @@ export default function Dashboard() {
       
       {/* Welcome message */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <p className="text-gray-700">
+        <p className="text-gray-800 font-medium text-base">
           Ini adalah dashboard admin untuk mengelola data penerima beasiswa.
         </p>
       </div>
@@ -71,8 +71,8 @@ export default function Dashboard() {
               <FiUsers size={24} />
             </div>
             <div>
-              <p className="text-sm text-gray-500 uppercase">TOTAL PENERIMA</p>
-              <p className="text-2xl font-semibold">{stats.totalRecipients}</p>
+              <p className="text-sm font-bold text-gray-700 uppercase">TOTAL PENERIMA</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.totalRecipients}</p>
             </div>
           </div>
         </div>
@@ -83,8 +83,8 @@ export default function Dashboard() {
               <FiFileText size={24} />
             </div>
             <div>
-              <p className="text-sm text-gray-500 uppercase">KEUANGAN</p>
-              <p className="text-2xl font-semibold">Kelola</p>
+              <p className="text-sm font-bold text-gray-700 uppercase">KEUANGAN</p>
+              <p className="text-2xl font-bold text-gray-900">Kelola</p>
             </div>
           </div>
         </div>
@@ -95,8 +95,8 @@ export default function Dashboard() {
               <FiUserPlus size={24} />
             </div>
             <div>
-              <p className="text-sm text-gray-500 uppercase">ADMIN</p>
-              <p className="text-2xl font-semibold">Kelola</p>
+              <p className="text-sm font-bold text-gray-700 uppercase">ADMIN</p>
+              <p className="text-2xl font-bold text-gray-900">Kelola</p>
             </div>
           </div>
         </div>
@@ -105,37 +105,37 @@ export default function Dashboard() {
       {/* Additional content */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Akses Cepat</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Akses Cepat</h2>
           <div className="space-y-2">
             <button 
               onClick={() => router.push('/dashboard/recipients/new')}
               className="w-full text-left px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded-md flex items-center"
             >
-              <FiUsers className="mr-2 text-blue-600" /> Tambah Penerima Baru
+              <FiUsers className="mr-2 text-blue-600" /> <span className="font-medium text-gray-800">Tambah Penerima Baru</span>
             </button>
             <button 
               onClick={() => router.push('/dashboard/admin/new')}
               className="w-full text-left px-4 py-2 bg-purple-50 hover:bg-purple-100 rounded-md flex items-center"
             >
-              <FiUserPlus className="mr-2 text-purple-600" /> Tambah Admin Baru
+              <FiUserPlus className="mr-2 text-purple-600" /> <span className="font-medium text-gray-800">Tambah Admin Baru</span>
             </button>
             <button 
               onClick={() => router.push('/dashboard/info-beasiswa/new')}
               className="w-full text-left px-4 py-2 bg-yellow-50 hover:bg-yellow-100 rounded-md flex items-center"
             >
-              <FiUserPlus className="mr-2 text-yellow-300" /> Tambah Info Beasiswa Baru
+              <FiUserPlus className="mr-2 text-yellow-600" /> <span className="font-medium text-gray-800">Tambah Info Beasiswa Baru</span>
             </button>
           </div>
         </div>
         
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Informasi Sistem</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Informasi Sistem</h2>
           <div className="space-y-2">
-            <p className="text-gray-700">
-              <span className="font-medium">Pengguna:</span> {user?.username || 'Tidak diketahui'}
+            <p className="text-gray-800">
+              <span className="font-bold">Pengguna:</span> <span className="font-medium">{user?.username || 'Tidak diketahui'}</span>
             </p>
-            <p className="text-gray-700">
-              <span className="font-medium">Role:</span> {user?.role || 'Tidak diketahui'}
+            <p className="text-gray-800">
+              <span className="font-bold">Role:</span> <span className="font-medium">{user?.role || 'Tidak diketahui'}</span>
             </p>
           </div>
         </div>
