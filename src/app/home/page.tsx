@@ -1,175 +1,109 @@
-'use client';
+  import React from 'react';
+import axios from 'axios';
+import API_ENDPOINTS, { API_BASE_URL } from '../../utils/api-config';
+import AnimatedPopup from './AnimatedPopup';
+import AnimatedDescription from './AnimatedDescription';
 
-import React, { useEffect, useState } from 'react';
+interface Section {
+  img: string;
+  alt: string;
+  caption: string;
+  description: string;
+}
 
-export default function DashboardPage() {
-  const texts = [
-    "WELCOME!",
-  ];
+interface SectionText {
+  alt: string;
+  caption: string;
+  description: string;
+}
 
-  const fullDescription = "Thhis website provides comprehensive scholarship information and resources to help you achieve your educational goals. Explore various scholarship opportunities, application tips, and success stories to guide you on your academic journey. Stay updated with the latest announcements, connect with fellow students, and access valuable tools designed to support your educational pursuits. Our mission is to empower you with knowledge and opportunities to succeed.";
-
-  const [visibleIndex, setVisibleIndex] = useState(-1);
-  const [menuVisibleIndex, setMenuVisibleIndex] = useState(-1);
-  const [extraVisibleIndex, setExtraVisibleIndex] = useState(-1);
-  const [typedDescription, setTypedDescription] = useState('');
-
-  useEffect(() => {
-    let currentText = 0;
-    const textInterval = setInterval(() => {
-      setVisibleIndex(currentText);
-      currentText++;
-      if (currentText >= texts.length) {
-        clearInterval(textInterval);
-      }
-    }, 400);
-
-    let currentMenu = 0;
-    const menuInterval = setInterval(() => {
-      setMenuVisibleIndex(currentMenu);
-      currentMenu++;
-      if (currentMenu >= 4) {
-        clearInterval(menuInterval);
-      }
-    }, 500);
-
-    let currentExtra = 0;
-    const extraInterval = setInterval(() => {
-      setExtraVisibleIndex(currentExtra);
-      currentExtra++;
-      if (currentExtra >= 3) {
-        clearInterval(extraInterval);
-      }
-    }, 500);
-
-    return () => {
-      clearInterval(textInterval);
-      clearInterval(menuInterval);
-      clearInterval(extraInterval);
+async function fetchHomeHeaderTexts() {
+  try {
+    const response = await axios.get(API_ENDPOINTS.ADMIN.HOME_EDIT_HEADER.GET_TEXTS);
+    return {
+      welcomeText: response.data.welcomeText || 'WELCOME!',
+      descriptionText: response.data.descriptionText || '',
     };
-  }, []);
+  } catch (error) {
+    console.error('Failed to fetch home header texts:', error);
+    return {
+      welcomeText: 'WELCOME!',
+      descriptionText: '',
+    };
+  }
+}
 
-  // Typing animation for description with faster speed
-  useEffect(() => {
-    let index = 0;
-    const typingInterval = setInterval(() => {
-      setTypedDescription((prev) => prev + fullDescription.charAt(index));
-      index++;
-      if (index >= fullDescription.length) {
-        clearInterval(typingInterval);
-      }
-    }, 20); // faster speed: 20ms per character
+async function fetchHomeEditSection1() {
+  try {
+    const response = await axios.get(API_ENDPOINTS.ADMIN.HOME_EDIT_SECTION1.GET_SECTION);
+    return response.data.sections as Section[] || [];
+  } catch (error) {
+    console.error('Failed to fetch home edit section1:', error);
+    return [];
+  }
+}
 
-    return () => clearInterval(typingInterval);
-  }, [fullDescription]);
+async function fetchHomeEditSectionText() {
+  try {
+    const response = await axios.get(API_ENDPOINTS.ADMIN.HOME_EDIT_SECTIONTEXT.GET_SECTION);
+    return response.data.sections as SectionText[] || [];
+  } catch (error) {
+    console.error('Failed to fetch home edit section text:', error);
+    return [];
+  }
+}
 
-  const extraSections = [
-    {
-      img: "/images/extra1.jpg",
-      alt: "Extra Section 1",
-      caption: "Explore new features",
-      description: "Discover the latest tools and updates to enhance your workflow and productivity.",
-    },
-    {
-      img: "/images/extra2.jpg",
-      alt: "Extra Section 2",
-      caption: "Stay connected with your team",
-      description: "Collaborate seamlessly with your colleagues and keep everyone in the loop.",
-    },
-    {
-      img: "/images/extra3.jpg",
-      alt: "Extra Section 3",
-      caption: "Boost your productivity",
-      description: "Utilize advanced analytics and insights to make informed decisions quickly.",
-    },
-  ];
+function getImageUrl(img: string) {
+  if (img.startsWith('http')) {
+    return img;
+  } else if (img.startsWith('/images')) {
+    return `${API_BASE_URL}/public${img}`;
+  } else if (img.startsWith('uploads')) {
+    return `${API_BASE_URL}/${img}`;
+  } else {
+    return `${API_BASE_URL}/uploads/${img}`;
+  }
+}
+
+export default async function HomePage() {
+  const { welcomeText, descriptionText } = await fetchHomeHeaderTexts();
+  const sections = await fetchHomeEditSection1();
+  const sectionTexts = await fetchHomeEditSectionText();
 
   return (
-    <div className="space-y-8 ">
+    <div className="space-y-16">
       <header className="flex flex-col items-center justify-start pt-20 min-h-[calc(100vh-4rem)] font-sans px-4">
-        {texts.map((text, index) => (
-          <h1
-            key={index}
-            className={`text-9xl font-extrabold uppercase text-white transform transition-all duration-500 ease-out ${
-              visibleIndex >= index ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
-            }`}
-          >
-            {text}
-          </h1>
-        ))}
-        <p className="mt-6 max-w-3xl text-center text-white text-xl whitespace-pre-wrap">
-          {typedDescription}
-        </p>
+        <h1 className="text-9xl font-extrabold uppercase text-white">
+          <AnimatedPopup text={welcomeText} />
+        </h1>
+        <AnimatedDescription text={descriptionText} />
       </header>
 
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[
-          {
-            img: "/images/chart1.png",
-            title: "Total Users",
-            value: "1,234",
-          },
-          {
-            img: "/images/chart2.png",
-            title: "Active Sessions",
-            value: "567",
-          },
-          {
-            img: "/images/chart3.png",
-            title: "Server Load",
-            value: "72%",
-          },
-        ].map(({ img, title, value }, index) => (
-          <div
-            key={index}
-            className={`bg-gray-900 bg-opacity-95 rounded-lg p-6 shadow-lg flex flex-col items-center text-white transform transition-all duration-500 ${
-              menuVisibleIndex >= index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-          >
+      <section className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {sections.map((section: Section, index: number) => (
+          <div key={index} className="relative rounded-lg shadow-md overflow-hidden">
             <img
-              src={img}
-              alt={title}
-              className="w-full h-40 object-cover rounded-md mb-4"
+              src={getImageUrl(section.img)}
+              alt={section.alt}
+              className="w-full h-64 object-cover"
             />
-            <h3 className="text-xl font-semibold mb-2">{title}</h3>
-            <p className="text-4xl font-bold">{value}</p>
+            <div className="absolute inset-0 flex flex-col justify-center p-6 text-white">
+              <h3 className="text-2xl font-semibold mb-2">{section.caption}</h3>
+              <p className="text-lg">{section.description}</p>
+            </div>
           </div>
         ))}
       </section>
 
-      <section
-        className={`bg-gray-900 bg-opacity-95 rounded-lg p-6 shadow-lg text-white transform transition-all duration-500 ${
-          menuVisibleIndex >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-      >
-        <h3 className="text-xl font-semibold mb-4">Recent Activity</h3>
-        <ul className="space-y-2 max-h-48 overflow-auto">
-          <li className="border-b border-blue-700 py-2">User John logged in</li>
-          <li className="border-b border-blue-700 py-2">Report generated by Admin</li>
-          <li className="border-b border-blue-700 py-2">Server restarted</li>
-          <li className="border-b border-blue-700 py-2">New user registered</li>
-        </ul>
-      </section>
-
-      {/* Additional sections with image left and text right */}
-      {extraSections.map(({ img, alt, caption, description }, index) => (
-        <section
-          key={index}
-          className={`bg-gray-900 bg-opacity-95 rounded-lg p-6 shadow-lg flex flex-col md:flex-row items-center text-white transform transition-all duration-500 ${
-            extraVisibleIndex >= index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <img
-            src={img}
-            alt={alt}
-            className="w-full md:w-1/2 h-64 object-cover rounded-md mb-4 md:mb-0 md:mr-6"
-          />
-          <div className="md:w-1/2">
-            <h3 className="text-2xl font-semibold mb-2">{caption}</h3>
-            <p className="text-lg">{description}</p>
+      <section className="max-w-7xl mx-auto px-4 space-y-8 border border-blue-500 rounded p-4">
+        {sectionTexts.map((sectionText: SectionText, index: number) => (
+          <div key={index} className="border border-blue-500 rounded p-6">
+            <h3 className="text-xl font-semibold mb-2 text-white">{sectionText.caption}</h3>
+            <p className="text-white mb-1"><strong>Pertanyaan :</strong> {sectionText.alt}</p>
+            <p className="text-white mb-1"><strong>Jawaban : </strong>{sectionText.description}</p>
           </div>
-        </section>
-      ))}
+        ))}
+      </section>
     </div>
   );
 }

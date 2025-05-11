@@ -50,6 +50,8 @@ export default function Sidebar() {
     { name: 'Penerima', icon: <FiUsers size={24} />, path: '/dashboard/recipients' },
     { name: 'Laporan', icon: <FiFileText size={24} />, path: '/dashboard/reports' },
     { name: 'Broadcast', icon: <FiFileText size={24} />, path: '/dashboard/broadcast' },
+    { name: 'Home Edit Header', icon: <FiFileText size={24} />, path: '/dashboard/home-edit-header' },
+    { name: 'Home Edit Section 1', icon: <FiFileText size={24} />, path: '/dashboard/home-edit-section1' },
   ];
 
   return (
