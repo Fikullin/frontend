@@ -84,6 +84,9 @@ export default function DashboardLayout({
     { name: 'InfoBeasiswa', icon: <FiFileText size={24} />, path: '/dashboard/info-beasiswa' },
     { name: 'Broadcast', icon: <FiFileText size={24} />, path: '/dashboard/broadcast' },
     { name: 'Admin', icon: <FiFileText size={24} />, path: '/dashboard/admin' },
+    { name: 'Home Edit Header', icon: <FiFileText size={24} />, path: '/dashboard/home-edit-header' },
+    { name: 'Home Edit Section 1', icon: <FiFileText size={24} />, path: '/dashboard/home-edit-section1' },
+    { name: 'Home Edit Section Text', icon: <FiFileText size={24} />, path: '/dashboard/home-edit-sectiontext' },
   ];
 
   if (isLoading) {

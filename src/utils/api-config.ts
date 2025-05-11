@@ -49,6 +49,18 @@ const API_ENDPOINTS = {
       CREATE: `${API_BASE_URL}/api/info-beasiswa`,
       UPDATE: (id: string) => `${API_BASE_URL}/api/info-beasiswa/${id}`,
       DELETE: (id: string) => `${API_BASE_URL}/api/info-beasiswa/${id}`,
+    },
+    HOME_EDIT_HEADER: {
+      GET_TEXTS: `${API_BASE_URL}/api/admin/home-header-texts`,
+      UPDATE_TEXTS: `${API_BASE_URL}/api/admin/home-header-texts`,
+    },
+    HOME_EDIT_SECTION1: {
+      GET_SECTION: `${API_BASE_URL}/api/admin/home-edit-section1`,
+      UPDATE_SECTION: `${API_BASE_URL}/api/admin/home-edit-section1`,
+    },
+    HOME_EDIT_SECTIONTEXT: {
+      GET_SECTION: `${API_BASE_URL}/api/admin/home-edit-sectiontext`,
+      UPDATE_SECTION: `${API_BASE_URL}/api/admin/home-edit-sectiontext`,
     }
   }
 };

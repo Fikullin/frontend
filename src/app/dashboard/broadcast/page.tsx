@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { FiPlus, FiEdit2, FiTrash2, FiSend, FiRefreshCw, FiSearch } from 'react-icons/fi';
-import BROADCAST_API_ENDPOINTS from '@/utils/api-broadcast-config';
+import BROADCAST_API_ENDPOINTS from '../../../utils/api-broadcast-config';
 
 interface Broadcast {
   id: number;
@@ -30,6 +30,7 @@ export default function BroadcastPage() {
   const [showSendModal, setShowSendModal] = useState(false);
   const [selectedBroadcastId, setSelectedBroadcastId] = useState<number | null>(null);
   const [sendMethod, setSendMethod] = useState('whatsapp');
+  const [selectedRecipients, setSelectedRecipients] = useState<number[]>([]);
 
   useEffect(() => {
     fetchBroadcasts();
@@ -171,30 +172,35 @@ export default function BroadcastPage() {
   };
 
   const handleSendClick = (id: number) => {
-    setSelectedBroadcastId(id);
-    setShowSendModal(true);
+    // Navigate to select recipients page with broadcastId as query param
+    router.push(`/dashboard/broadcast/select-recipients?broadcastId=${id}`);
   };
 
   const handleSendConfirm = async () => {
     if (!selectedBroadcastId) return;
+    if (!selectedRecipients || selectedRecipients.length === 0) {
+      alert('Pilih penerima terlebih dahulu');
+      return;
+    }
     
     try {
       const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('Anda harus login terlebih dahulu');
       }
-  
+
       console.log('Sending to URL:', BROADCAST_API_ENDPOINTS.SEND(selectedBroadcastId.toString()));
-      
+
       await axios.post(BROADCAST_API_ENDPOINTS.SEND(selectedBroadcastId.toString()), {
-        method: sendMethod // Kirim metode pengiriman ke backend
+        method: sendMethod, // Kirim metode pengiriman ke backend
+        recipients: selectedRecipients // Kirim daftar penerima ke backend
       }, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'  // Explicitly set content type
         }
       });
-  
+
       // Update the broadcast status in the list
       setBroadcasts(prevBroadcasts => 
         prevBroadcasts.map(broadcast => 
@@ -203,7 +209,7 @@ export default function BroadcastPage() {
             : broadcast
         )
       );
-      
+
       setShowSendModal(false);
       alert(`Broadcast berhasil dikirim via ${sendMethod === 'whatsapp' ? 'WhatsApp' : 'Email'}!`);
     } catch (error) {
@@ -211,7 +217,7 @@ export default function BroadcastPage() {
       if (axios.isAxiosError(error)) {
         const statusCode = error.response?.status;
         const errorMessage = error.response?.data?.message || error.message;
-        
+
         alert(`Gagal mengirim broadcast (${statusCode}): ${errorMessage}`);
       } else {
         alert('Gagal mengirim broadcast');
@@ -219,6 +225,23 @@ export default function BroadcastPage() {
       setShowSendModal(false);
     }
   };
+
+  // Parse query params to get broadcastId and recipients when navigated back from select-recipients page
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const broadcastIdParam = params.get('broadcastId');
+    const recipientsParam = params.get('recipients');
+
+    if (broadcastIdParam) {
+      setSelectedBroadcastId(parseInt(broadcastIdParam));
+    }
+
+    if (recipientsParam) {
+      const recipientIds = recipientsParam.split(',').map(id => parseInt(id));
+      setSelectedRecipients(recipientIds);
+      setShowSendModal(true);
+    }
+  }, []);
 
   const filteredBroadcasts = broadcasts.filter(broadcast =>
     broadcast.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -475,7 +498,7 @@ export default function BroadcastPage() {
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setShowSendModal(false)}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors font-medium"
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors font-medium"
               >
                 Batal
               </button>
