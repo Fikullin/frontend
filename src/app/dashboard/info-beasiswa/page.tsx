@@ -5,6 +5,7 @@ import axios from 'axios';
 import { FiEdit2, FiTrash2, FiSearch, FiRefreshCw, FiPlus } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import API_ENDPOINTS, { API_BASE_URL } from '@/utils/api-config';
+import Image from 'next/image';
 
 interface InfoBeasiswa {
   id: number;
@@ -143,10 +144,13 @@ export default function InfoBeasiswaPage() {
                   <tr key={info.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       {info.photo ? (
-                        <img 
+                        
+                        <Image 
                           src={`${API_BASE_URL}/${info.photo}`} 
                           alt={info.title} 
-                          className="h-16 w-16 object-cover rounded"
+                          width={64} 
+                          height={64} 
+                          className="object-cover rounded"
                         />
                       ) : (
                         <div className="h-16 w-16 bg-gray-200 rounded flex items-center justify-center text-gray-500">

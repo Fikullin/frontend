@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -136,10 +135,12 @@ export default function HomeEditSection1Page() {
                   <label className="block font-semibold mb-1">Image</label>
                   <div className="flex items-center space-x-4">
                     {section.previewUrl && (
-                      <img
-                        src={section.previewUrl}
-                        alt={section.alt}
-                        className="w-48 h-32 object-cover rounded"
+                      <Image
+                        src={section.previewUrl || '/placeholder.png'}
+                        alt={section.alt || 'Preview'}
+                        width={192}
+                        height={128}
+                        className="object-cover rounded"
                       />
                     )}
                     <input

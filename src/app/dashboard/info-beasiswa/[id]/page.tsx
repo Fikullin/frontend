@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { FiSave, FiArrowLeft } from 'react-icons/fi';
 import API_ENDPOINTS, { API_BASE_URL } from '@/utils/api-config';
+import Image from 'next/image';
 
 interface InfoBeasiswaFormData {
   title: string;
@@ -190,9 +191,12 @@ export default function EditInfoBeasiswaPage({ params }: { params: Promise<{ id:
             </label>
             {currentPhoto && !photo && (
               <div className="mb-2">
-                <img 
+                
+                <Image 
                   src={`${API_BASE_URL}/${currentPhoto}`} 
                   alt="Current Photo" 
+                  width={160} 
+                  height={160} 
                   className="h-40 object-cover rounded mb-2" 
                 />
                 <p className="text-sm text-gray-500">Foto saat ini</p>

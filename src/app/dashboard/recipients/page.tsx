@@ -6,7 +6,7 @@ import axios from 'axios';
 import { FiEdit2, FiTrash2, FiSearch, FiRefreshCw, FiPlus, FiDownload } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import API_ENDPOINTS, { API_BASE_URL } from '@/utils/api-config';
-
+import Image from 'next/image';
 
 interface Recipient {
   id: number;
@@ -209,10 +209,14 @@ export default function RecipientsPage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
                         {recipient.photo ? (
-                          <img
+                          
+                          <Image
                             src={`${API_BASE_URL}/${recipient.photo}`}
                             alt={recipient.name}
-                            className="w-full h-full object-cover`"
+                            className="w-full h-full object-cover"
+                            width={48}
+                            height={48}
+                            unoptimized
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-900">
