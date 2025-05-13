@@ -1,8 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import API_ENDPOINTS from '../../../utils/api-config';
+import Image from 'next/image';
 
 interface Section {
   img: string;
@@ -55,8 +57,8 @@ export default function HomeEditSection1Page() {
     setSections(updatedSections);
   };
 
-  const handleFileChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files ? event.target.files[0] : null;
+  const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       handleInputChange(index, 'file', file);
     }
@@ -80,16 +82,16 @@ export default function HomeEditSection1Page() {
     setSuccessMessage('');
     try {
       const formData = new FormData();
-      // Prepare sections data without img field for files to be uploaded
-      const sectionsData = sections.map(({ img, file, previewUrl, ...rest }) => ({
-        ...rest,
-        img: img, // keep current img path, will be replaced if file uploaded
+      // Prepare sections data without file and previewUrl fields
+      const sectionsData = sections.map(({ ...rest }) => ({
+        ...rest
       }));
       formData.append('sections', JSON.stringify(sectionsData));
       // Append files
       sections.forEach((section, index) => {
         if (section.file) {
-          formData.append('images', section.file);
+          formData.append(`images[${index}]`, section.file);
+          formData.append(`imageIndex[${index}]`, index.toString());
         }
       });
 

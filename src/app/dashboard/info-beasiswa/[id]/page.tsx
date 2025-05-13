@@ -26,28 +26,28 @@ export default function EditInfoBeasiswaPage({ params }: { params: Promise<{ id:
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchInfoBeasiswa();
-  }, []);
-
-  const fetchInfoBeasiswa = async () => {
-    try {
-      const response = await axios.get(API_ENDPOINTS.ADMIN.INFO_BEASISWA.DETAIL(unwrappedParams.id));
-      const data = response.data;
-      
-      setFormData({
-        title: data.title,
-        description: data.description,
-        date: data.date
-      });
-      
-      if (data.photo) {
-        setCurrentPhoto(data.photo);
+    const fetchInfoBeasiswa = async () => {
+      try {
+        const response = await axios.get(API_ENDPOINTS.ADMIN.INFO_BEASISWA.DETAIL(unwrappedParams.id));
+        const data = response.data;
+        
+        setFormData({
+          title: data.title,
+          description: data.description,
+          date: data.date
+        });
+        
+        if (data.photo) {
+          setCurrentPhoto(data.photo);
+        }
+      } catch (error) {
+        setError('Gagal mengambil data info beasiswa');
+        console.error('Error fetching info beasiswa:', error);
       }
-    } catch (error) {
-      setError('Gagal mengambil data info beasiswa');
-      console.error('Error fetching info beasiswa:', error);
-    }
-  };
+    };
+
+    fetchInfoBeasiswa();
+  }, [unwrappedParams.id]); // Hanya bergantung pada ID
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

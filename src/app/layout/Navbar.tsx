@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+// Remove or rename useEffect if not used
+// import { useState, useEffect as _useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 const navItems = [
   { name: 'Home', href: '/' },

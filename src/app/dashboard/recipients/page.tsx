@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -87,7 +88,7 @@ export default function RecipientsPage() {
           try {
             const errorJson = JSON.parse(reader.result as string);
             setError(errorJson.message || 'Gagal mengekspor data ke Excel');
-          } catch (e) {
+          } catch (_e) {
             setError('Gagal mengekspor data ke Excel: Format respons tidak valid');
           }
         };

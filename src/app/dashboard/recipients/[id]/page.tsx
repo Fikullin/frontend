@@ -8,37 +8,65 @@ import API_ENDPOINTS from '@/utils/api-config';
 
 interface RecipientFormData {
   name: string;
-  photo: File | null;
-  // Add other fields based on your backend model
+  email: string;
+  phone: string;
+  address: string;
+  institution: string;
+  major: string;
+  semester: string;
+  bankAccount: string;
+  bankName: string;
+  status: string;
 }
 
-export default function RecipientForm({ params }: { params: Promise<{ id: string }> }) {
+export default function EditRecipientPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = React.use(params);
   const router = useRouter();
   const [formData, setFormData] = useState<RecipientFormData>({
     name: '',
-    photo: null,
+    email: '',
+    phone: '',
+    address: '',
+    institution: '',
+    major: '',
+    semester: '',
+    bankAccount: '',
+    bankName: '',
+    status: 'active'
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const isNew = unwrappedParams.id === 'new';
 
   useEffect(() => {
-    if (!isNew) {
-      fetchRecipient();
-    }
-  }, [isNew]);
+    const fetchRecipient = async () => {
+      try {
+        const response = await axios.get(API_ENDPOINTS.ADMIN.RECIPIENTS.DETAIL(unwrappedParams.id));
+        const data = response.data;
+        
+        setFormData({
+          name: data.name,
+          email: data.email,
+          phone: data.phone || '',
+          address: data.address || '',
+          institution: data.institution || '',
+          major: data.major || '',
+          semester: data.semester || '',
+          bankAccount: data.bankAccount || '',
+          bankName: data.bankName || '',
+          status: data.status || 'active'
+        });
+      } catch (_error) {
+        setError('Gagal mengambil data penerima beasiswa');
+        console.error('Error fetching recipient:', _error);
+      }
+    };
 
-  const fetchRecipient = async () => {
-    try {
-      const response = await axios.get(API_ENDPOINTS.ADMIN.RECIPIENTS.DETAIL(unwrappedParams.id));
-      setFormData({
-        name: response.data.name,
-        photo: null,
-      });
-    } catch (error) {
-      setError('Gagal mengambil data penerima');
-    }
+    fetchRecipient();
+  }, [unwrappedParams.id]); // Hanya bergantung pada ID
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,34 +75,46 @@ export default function RecipientForm({ params }: { params: Promise<{ id: string
     setError('');
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      if (formData.photo) {
-        formDataToSend.append('photo', formData.photo);
+      // Validasi data
+      if (!formData.name || !formData.email) {
+        throw new Error('Nama dan email wajib diisi');
       }
 
-      if (isNew) {
-        await axios.post(API_ENDPOINTS.ADMIN.RECIPIENTS.CREATE, formDataToSend);
-      } else {
-        await axios.put(API_ENDPOINTS.ADMIN.RECIPIENTS.UPDATE(unwrappedParams.id), formDataToSend);
+      // Ambil token dari localStorage
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Anda harus login terlebih dahulu');
       }
 
+      // Kirim data ke API
+      await axios.put(
+        API_ENDPOINTS.ADMIN.RECIPIENTS.UPDATE(unwrappedParams.id), 
+        formData, 
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      
+      // Redirect ke halaman daftar penerima beasiswa
       router.push('/dashboard/recipients');
-    } catch (error) {
-      setError('Gagal menyimpan data penerima');
+    } catch (_error) {
+      if (axios.isAxiosError(_error)) {
+        setError(_error.response?.data?.message || `Error: ${_error.message}`);
+      } else if (_error instanceof Error) {
+        setError(_error.message);
+      } else {
+        setError('Terjadi kesalahan saat menyimpan data');
+      }
+      console.error('Error updating recipient:', _error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, photo: e.target.files[0] });
-    }
-  };
-
   return (
-    <div className="container mx-auto">
+    <div>
       <div className="flex items-center mb-6">
         <button
           onClick={() => router.push('/dashboard/recipients')}
@@ -83,7 +123,7 @@ export default function RecipientForm({ params }: { params: Promise<{ id: string
           <FiArrowLeft size={24} />
         </button>
         <h1 className="text-3xl font-bold text-gray-800">
-          {isNew ? 'Tambah Penerima Baru' : 'Edit Penerima'}
+          Edit Penerima Beasiswa
         </h1>
       </div>
 
@@ -95,32 +135,157 @@ export default function RecipientForm({ params }: { params: Promise<{ id: string
 
       <div className="bg-white rounded-lg shadow-md p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-              Nama
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                Nama Lengkap <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                Email <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                Nomor Telepon
+              </label>
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+                Status
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="active">Aktif</option>
+                <option value="inactive">Tidak Aktif</option>
+                <option value="graduated">Lulus</option>
+              </select>
+            </div>
           </div>
 
           <div>
-            <label htmlFor="photo" className="block text-sm font-medium text-gray-700 mb-1">
-              Foto
+            <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+              Alamat
             </label>
-            <input
-              type="file"
-              id="photo"
-              accept="image/*"
-              onChange={handleFileChange}
+            <textarea
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              rows={3}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required={isNew}
-            />
+            ></textarea>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="institution" className="block text-sm font-medium text-gray-700 mb-1">
+                Institusi Pendidikan
+              </label>
+              <input
+                type="text"
+                id="institution"
+                name="institution"
+                value={formData.institution}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="major" className="block text-sm font-medium text-gray-700 mb-1">
+                Jurusan
+              </label>
+              <input
+                type="text"
+                id="major"
+                name="major"
+                value={formData.major}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label htmlFor="semester" className="block text-sm font-medium text-gray-700 mb-1">
+                Semester
+              </label>
+              <input
+                type="text"
+                id="semester"
+                name="semester"
+                value={formData.semester}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="bankName" className="block text-sm font-medium text-gray-700 mb-1">
+                Nama Bank
+              </label>
+              <input
+                type="text"
+                id="bankName"
+                name="bankName"
+                value={formData.bankName}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="bankAccount" className="block text-sm font-medium text-gray-700 mb-1">
+                Nomor Rekening
+              </label>
+              <input
+                type="text"
+                id="bankAccount"
+                name="bankAccount"
+                value={formData.bankAccount}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
           </div>
 
           <div className="flex justify-end space-x-4">

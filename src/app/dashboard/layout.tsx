@@ -44,7 +44,7 @@ export default function DashboardLayout({
         // Verify token is valid
         await axios.get(API_ENDPOINTS.AUTH.PROFILE);
         setIsLoading(false);
-      } catch (error) {
+      } catch (_error) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         router.push('/login');

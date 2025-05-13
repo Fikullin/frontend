@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import API_ENDPOINTS, { API_BASE_URL } from '@/utils/api-config';
-import Link from 'next/link';
+// Remove or rename Link if not used
+// import Link as _Link from 'next/link';
 
 interface Recipient {
   id: number;

@@ -28,26 +28,26 @@ export default function EditFinancePage({ params }: { params: Promise<{ id: stri
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchFinance();
-  }, []);
+    const fetchFinance = async () => {
+      try {
+        const response = await axios.get(API_ENDPOINTS.ADMIN.FINANCE.DETAIL(unwrappedParams.id));
+        const data = response.data;
+        
+        setFormData({
+          type: data.type,
+          amount: data.amount.toString(),
+          date: new Date(data.date).toISOString().split('T')[0],
+          description: data.description,
+          notes: data.notes || ''
+        });
+      } catch (error) {
+        setError('Gagal mengambil data keuangan');
+        console.error('Error fetching finance:', error);
+      }
+    };
 
-  const fetchFinance = async () => {
-    try {
-      const response = await axios.get(API_ENDPOINTS.ADMIN.FINANCE.DETAIL(unwrappedParams.id));
-      const data = response.data;
-      
-      setFormData({
-        type: data.type,
-        amount: data.amount.toString(),
-        date: new Date(data.date).toISOString().split('T')[0],
-        description: data.description,
-        notes: data.notes || ''
-      });
-    } catch (error) {
-      setError('Gagal mengambil data keuangan');
-      console.error('Error fetching finance:', error);
-    }
-  };
+    fetchFinance();
+  }, [unwrappedParams.id]); // Hanya bergantung pada ID
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

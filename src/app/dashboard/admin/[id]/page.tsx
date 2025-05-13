@@ -9,10 +9,11 @@ import API_ENDPOINTS from '@/utils/api-config';
 interface AdminFormData {
   username: string;
   email: string;
-  password: string;
-  confirmPassword: string;
   nama: string;
   role: string;
+  departemenPekerjaan?: string;
+  noHp?: string;
+  alamat?: string;
 }
 
 export default function EditAdminPage({ params }: { params: Promise<{ id: string }> }) {
@@ -21,38 +22,40 @@ export default function EditAdminPage({ params }: { params: Promise<{ id: string
   const [formData, setFormData] = useState<AdminFormData>({
     username: '',
     email: '',
-    password: '',
-    confirmPassword: '',
     nama: '',
-    role: 'admin'
+    role: 'admin',
+    departemenPekerjaan: '',
+    noHp: '',
+    alamat: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
+    const fetchAdmin = async () => {
+      try {
+        const response = await axios.get(API_ENDPOINTS.ADMIN.ADMIN.DETAIL(unwrappedParams.id));
+        const data = response.data;
+        
+        setFormData({
+          username: data.username,
+          email: data.email,
+          nama: data.nama,
+          role: data.role || 'admin',
+          departemenPekerjaan: data.departemenPekerjaan || '',
+          noHp: data.noHp || '',
+          alamat: data.alamat || ''
+        });
+      } catch (error) {
+        setError('Gagal mengambil data admin');
+        console.error('Error fetching admin:', error);
+      }
+    };
+
     fetchAdmin();
-  }, []);
+  }, [unwrappedParams.id]); // Hanya bergantung pada ID
 
-  const fetchAdmin = async () => {
-    try {
-      const response = await axios.get(API_ENDPOINTS.ADMIN.ADMIN.DETAIL(unwrappedParams.id));
-      const data = response.data;
-      
-      setFormData({
-        username: data.username,
-        email: data.email,
-        password: '',
-        confirmPassword: '',
-        nama: data.nama,
-        role: data.role
-      });
-    } catch (error) {
-      setError('Gagal mengambil data admin');
-      console.error('Error fetching admin:', error);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -68,33 +71,16 @@ export default function EditAdminPage({ params }: { params: Promise<{ id: string
         throw new Error('Username, email, dan nama wajib diisi');
       }
 
-      if (formData.password && formData.password !== formData.confirmPassword) {
-        throw new Error('Password dan konfirmasi password tidak cocok');
-      }
-
       // Ambil token dari localStorage
       const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('Anda harus login terlebih dahulu');
       }
 
-      // Siapkan data untuk dikirim
-      const dataToSend: any = {
-        username: formData.username,
-        email: formData.email,
-        nama: formData.nama,
-        role: formData.role
-      };
-
-      // Tambahkan password jika diisi
-      if (formData.password) {
-        dataToSend.password = formData.password;
-      }
-
       // Kirim data ke API
       await axios.put(
         API_ENDPOINTS.ADMIN.ADMIN.UPDATE(unwrappedParams.id), 
-        dataToSend, 
+        formData, 
         {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -187,39 +173,9 @@ export default function EditAdminPage({ params }: { params: Promise<{ id: string
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password <span className="text-gray-500">(Kosongkan jika tidak ingin mengubah)</span>
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                Konfirmasi Password
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          </div>
-
           <div>
             <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
-              Role
+              Role <span className="text-red-500">*</span>
             </label>
             <select
               id="role"
@@ -227,10 +183,53 @@ export default function EditAdminPage({ params }: { params: Promise<{ id: string
               value={formData.role}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             >
               <option value="admin">Admin</option>
               <option value="superadmin">Super Admin</option>
             </select>
+          </div>
+
+          <div>
+            <label htmlFor="departemenPekerjaan" className="block text-sm font-medium text-gray-700 mb-1">
+              Departemen Pekerjaan
+            </label>
+            <input
+              type="text"
+              id="departemenPekerjaan"
+              name="departemenPekerjaan"
+              value={formData.departemenPekerjaan}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="noHp" className="block text-sm font-medium text-gray-700 mb-1">
+              Nomor HP
+            </label>
+            <input
+              type="text"
+              id="noHp"
+              name="noHp"
+              value={formData.noHp}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="alamat" className="block text-sm font-medium text-gray-700 mb-1">
+              Alamat
+            </label>
+            <textarea
+              id="alamat"
+              name="alamat"
+              value={formData.alamat}
+              onChange={handleChange}
+              rows={3}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            ></textarea>
           </div>
 
           <div className="flex justify-end space-x-4">

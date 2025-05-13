@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FiSearch, FiRefreshCw } from 'react-icons/fi';
 import API_ENDPOINTS from '../../../../utils/api-config';
+import { FiRefreshCw } from 'react-icons/fi';
 
 interface Recipient {
   id: number;

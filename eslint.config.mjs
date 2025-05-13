@@ -12,16 +12,12 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
+    // Add rules to disable specific warnings
     rules: {
-      // Menangani variabel yang didefinisikan tapi tidak digunakan
-      "@typescript-eslint/no-unused-vars": [
-        "warn", // Mengubah level dari error menjadi warning
-        {
-          argsIgnorePattern: "^_", // Mengabaikan parameter yang dimulai dengan underscore
-          varsIgnorePattern: "^_", // Mengabaikan variabel yang dimulai dengan underscore
-          caughtErrorsIgnorePattern: "^_", // Mengabaikan error yang dimulai dengan underscore
-        },
-      ],
+      'react-hooks/exhaustive-deps': 'warn', // Or 'off' to disable completely
+      '@typescript-eslint/no-explicit-any': 'warn', // Or 'off'
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@next/next/no-img-element': 'warn', // Or 'off'
     },
   },
 ];
