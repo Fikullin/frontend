@@ -1,5 +1,5 @@
 // Base URL API
-export const API_BASE_URL = 'http://localhost:5000';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL 
 
 // Endpoint API
 // Tambahkan ini ke file api-config.ts yang sudah ada
