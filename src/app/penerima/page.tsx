@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import API_ENDPOINTS, { API_BASE_URL } from '@/utils/api-config';
-// Remove or rename Link if not used
-// import Link as _Link from 'next/link';
+import Image from 'next/image';
 
 interface Recipient {
   id: number;
@@ -73,9 +72,11 @@ export default function PenerimaPage() {
               <div key={recipient.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="h-48 bg-gray-200 relative">
                   {recipient.photo ? (
-                    <img
+                    <Image
                       src={`${API_BASE_URL}/${recipient.photo}`}
                       alt={recipient.name}
+                      height={48}
+                      width={48}
                       className="w-full h-full object-cover"
                     />
                   ) : (

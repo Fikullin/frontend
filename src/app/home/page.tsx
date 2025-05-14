@@ -72,15 +72,15 @@ export default async function HomePage() {
   const sectionTexts = await fetchHomeEditSectionText();
 
   return (
-    <div className="space-y-16">
-      <header className="flex flex-col items-center justify-start pt-20 min-h-[calc(100vh-4rem)] font-sans px-4">
-        <h1 className="text-9xl font-extrabold uppercase text-white">
+    <div className="space-y-16 px-4 sm:px-8 overflow-x-hidden">
+      <header className="flex flex-col items-center justify-start pt-20 min-h-[calc(100vh-4rem)] font-sans">
+        <h1 className="text-4xl sm:text-6xl md:text-9xl font-extrabold uppercase text-white text-center max-w-full break-words">
           <AnimatedPopup text={welcomeText} />
         </h1>
         <AnimatedDescription text={descriptionText} />
       </header>
 
-      <section className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <section className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {sections.map((section: Section, index: number) => (
           <div key={index} className="relative rounded-lg shadow-md overflow-hidden">
             <Image
@@ -98,7 +98,7 @@ export default async function HomePage() {
         ))}
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 space-y-8 border border-blue-500 rounded p-4">
+      <section className="max-w-7xl mx-auto space-y-8 border border-blue-500 rounded p-4">
         {sectionTexts.map((sectionText: SectionText, index: number) => (
           <div key={index} className="border border-blue-500 rounded p-6">
             <h3 className="text-xl font-semibold mb-2 text-white">{sectionText.caption}</h3>

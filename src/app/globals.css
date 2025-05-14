@@ -1,4 +1,82 @@
-/* Tambahkan ini ke file globals.css yang sudah ada */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* Tambahan untuk responsivitas */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Perbaikan responsif untuk tabel */
+@layer components {
+  .responsive-table {
+    @apply w-full overflow-x-auto;
+  }
+  
+  .responsive-table table {
+    @apply min-w-full divide-y divide-gray-200;
+  }
+  
+  /* Responsif untuk form */
+  .form-container {
+    @apply w-full max-w-4xl mx-auto;
+  }
+  
+  .form-group {
+    @apply mb-4;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+  
+  .form-input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+  
+  /* Responsif untuk card */
+  .card {
+    @apply bg-white rounded-lg shadow-md overflow-hidden;
+  }
+  
+  .card-header {
+    @apply p-4 sm:p-6 border-b;
+  }
+  
+  .card-body {
+    @apply p-4 sm:p-6;
+  }
+  
+  .card-footer {
+    @apply p-4 sm:p-6 border-t;
+  }
+}
 
 /* Meningkatkan keterbacaan input */
 input, select, textarea {

@@ -44,6 +44,7 @@ export default function DashboardLayout({
         // Verify token is valid
         await axios.get(API_ENDPOINTS.AUTH.PROFILE);
         setIsLoading(false);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_error) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -97,17 +98,23 @@ export default function DashboardLayout({
     );
   }
 
+
   return (
     <div className="flex h-screen bg-blue-900">
       {/* Sidebar */}
-      <div className={`fixed h-full bg-blue-900 text-white transition-all duration-300 ${collapsed ? 'w-20' : 'w-64'}`}>
+      <div
+        className={`fixed top-0 left-0 h-full bg-blue-900 text-white transition-transform duration-300 z-50
+          ${collapsed ? '-translate-x-full md:translate-x-0 md:w-20' : 'translate-x-0 md:w-64'}
+        `}
+      >
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-blue-800">
             {!collapsed && <h1 className="text-xl font-bold">Beasiswa</h1>}
-            <button 
+            <button
               onClick={toggleSidebar}
-              className="p-1 rounded-md hover:bg-blue-800"
+              aria-label="Toggle sidebar"
+              className="p-1 rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {collapsed ? '☰' : '✕'}
             </button>
@@ -131,7 +138,7 @@ export default function DashboardLayout({
             <ul>
               {menuItems.map((item) => (
                 <li key={item.path}>
-                  <Link 
+                  <Link
                     href={item.path}
                     className={`flex items-center py-3 px-4 ${
                       pathname === item.path ? 'bg-blue-800' : 'hover:bg-blue-800'
@@ -162,8 +169,32 @@ export default function DashboardLayout({
         </div>
       </div>
 
+      {/* Overlay for mobile when sidebar is open */}
+      {!collapsed && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={toggleSidebar}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Mobile toggle button when sidebar is collapsed */}
+      {collapsed && (
+        <button
+          onClick={toggleSidebar}
+          aria-label="Open sidebar"
+          className="fixed top-4 left-4 z-50 p-2 rounded-md bg-blue-900 text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 md:hidden"
+        >
+          ☰
+        </button>
+      )}
+
       {/* Main content */}
-      <div className={`flex-1 overflow-auto bg-white transition-all duration-300 ${collapsed ? 'ml-20' : 'ml-64'} p-6 rounded-l-3xl`}>
+      <div
+        className={`flex-1 overflow-auto bg-white transition-all duration-300 p-6 rounded-l-3xl
+          ${collapsed ? 'ml-0 md:ml-20' : 'ml-0 md:ml-64'}
+        `}
+      >
         {children}
       </div>
     </div>

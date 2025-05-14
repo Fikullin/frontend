@@ -107,33 +107,34 @@ export default function AddRecipientPage() {
   };
 
   return (
-    <div>
-      <div className="flex items-center mb-6">
+    <div className="p-3 sm:p-4 md:p-6">
+      <div className="flex items-center mb-4 sm:mb-6">
         <button
           onClick={() => router.push('/dashboard/recipients')}
-          className="mr-4 text-gray-600 hover:text-gray-900"
+          className="mr-3 sm:mr-4 text-gray-600 hover:text-gray-900"
         >
-          <FiArrowLeft size={24} />
+          <FiArrowLeft size={20} className="sm:hidden" />
+          <FiArrowLeft size={24} className="hidden sm:block" />
         </button>
-        <h1 className="text-3xl font-bold text-gray-800">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
           Tambah Penerima Baru
         </h1>
       </div>
 
       {error && (
-        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
+        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-3 sm:p-4 mb-4 sm:mb-6">
           <p>{error}</p>
         </div>
       )}
 
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="bg-white rounded-lg shadow-md p-4 sm:p-5 md:p-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             {/* Data Pribadi */}
             <div>
-              <h2 className="text-xl font-semibold mb-4 text-gray-700">Data Pribadi</h2>
+              <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-700">Data Pribadi</h2>
               
-              <div className="mb-4">
+              <div className="mb-3 sm:mb-4">
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Nama <span className="text-red-500">*</span>
                 </label>
@@ -143,12 +144,12 @@ export default function AddRecipientPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3 sm:mb-4">
                 <label htmlFor="nrp" className="block text-sm font-medium text-gray-700 mb-1">
                   NRP <span className="text-red-500">*</span>
                 </label>
@@ -158,12 +159,12 @@ export default function AddRecipientPage() {
                   name="nrp"
                   value={formData.nrp}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3 sm:mb-4">
                 <label htmlFor="departemen" className="block text-sm font-medium text-gray-700 mb-1">
                   Departemen <span className="text-red-500">*</span>
                 </label>
@@ -173,12 +174,12 @@ export default function AddRecipientPage() {
                   name="departemen"
                   value={formData.departemen}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3 sm:mb-4">
                 <label htmlFor="ipk" className="block text-sm font-medium text-gray-700 mb-1">
                   IPK <span className="text-red-500">*</span>
                 </label>
@@ -191,12 +192,12 @@ export default function AddRecipientPage() {
                   step="0.01"
                   min="0"
                   max="4"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3 sm:mb-4">
                 <label htmlFor="noHp" className="block text-sm font-medium text-gray-700 mb-1">
                   No. HP <span className="text-red-500">*</span>
                 </label>
@@ -206,12 +207,12 @@ export default function AddRecipientPage() {
                   name="noHp"
                   value={formData.noHp}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3 sm:mb-4">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email
                 </label>
@@ -221,15 +222,16 @@ export default function AddRecipientPage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
 
             {/* Data Tambahan */}
             <div>
-              <h2 className="text-xl font-semibold mb-4 text-gray-700">Data Tambahan</h2>
+              <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-700">Data Tambahan</h2>
               
+              {/* Sisanya sama seperti sebelumnya, hanya perlu menyesuaikan padding dan margin */}
               <div className="mb-4">
                 <label htmlFor="namaBank" className="block text-sm font-medium text-gray-700 mb-1">
                   Nama Bank
@@ -344,7 +346,7 @@ export default function AddRecipientPage() {
               value={formData.keteranganLulus}
               onChange={handleChange}
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             ></textarea>
           </div>
 
@@ -357,23 +359,23 @@ export default function AddRecipientPage() {
               id="photo"
               accept="image/*"
               onChange={handleFileChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
-          <div className="flex justify-end space-x-4">
+          <div className="flex justify-end space-x-3 sm:space-x-4">
             <button
               type="button"
               onClick={() => router.push('/dashboard/recipients')}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              className="px-3 sm:px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm sm:text-base"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-400"
+              className="flex items-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-400 text-sm sm:text-base"
             >
               <FiSave className="mr-2" />
               {isLoading ? 'Menyimpan...' : 'Simpan'}

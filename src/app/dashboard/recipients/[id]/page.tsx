@@ -114,28 +114,29 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
   };
 
   return (
-    <div>
-      <div className="flex items-center mb-6">
+    <div className="p-3 sm:p-4 md:p-6">
+      <div className="flex items-center mb-4 sm:mb-6">
         <button
           onClick={() => router.push('/dashboard/recipients')}
-          className="mr-4 text-gray-600 hover:text-gray-900"
+          className="mr-3 sm:mr-4 text-gray-600 hover:text-gray-900"
         >
-          <FiArrowLeft size={24} />
+          <FiArrowLeft size={20} className="sm:hidden" />
+          <FiArrowLeft size={24} className="hidden sm:block" />
         </button>
-        <h1 className="text-3xl font-bold text-gray-800">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
           Edit Penerima Beasiswa
         </h1>
       </div>
 
       {error && (
-        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
+        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-3 sm:p-4 mb-4 sm:mb-6">
           <p>{error}</p>
         </div>
       )}
 
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="bg-white rounded-lg shadow-md p-4 sm:p-5 md:p-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                 Nama Lengkap <span className="text-red-500">*</span>
@@ -146,7 +147,7 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
@@ -161,13 +162,13 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                 Nomor Telepon
@@ -178,7 +179,7 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -191,7 +192,7 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="active">Aktif</option>
                 <option value="inactive">Tidak Aktif</option>
@@ -210,11 +211,11 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
               value={formData.address}
               onChange={handleChange}
               rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             ></textarea>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             <div>
               <label htmlFor="institution" className="block text-sm font-medium text-gray-700 mb-1">
                 Institusi Pendidikan
@@ -225,7 +226,7 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
                 name="institution"
                 value={formData.institution}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -239,12 +240,12 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
                 name="major"
                 value={formData.major}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             <div>
               <label htmlFor="semester" className="block text-sm font-medium text-gray-700 mb-1">
                 Semester
@@ -255,7 +256,7 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
                 name="semester"
                 value={formData.semester}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -269,7 +270,7 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
                 name="bankName"
                 value={formData.bankName}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -283,23 +284,23 @@ export default function EditRecipientPage({ params }: { params: Promise<{ id: st
                 name="bankAccount"
                 value={formData.bankAccount}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
-          <div className="flex justify-end space-x-4">
+          <div className="flex justify-end space-x-3 sm:space-x-4">
             <button
               type="button"
               onClick={() => router.push('/dashboard/recipients')}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              className="px-3 sm:px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm sm:text-base"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-400"
+              className="flex items-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-400 text-sm sm:text-base"
             >
               <FiSave className="mr-2" />
               {isLoading ? 'Menyimpan...' : 'Simpan'}

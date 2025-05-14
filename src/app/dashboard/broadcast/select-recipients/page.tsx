@@ -112,25 +112,25 @@ export default function SelectRecipientsPage() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50 sticky top-0">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                   Pilih
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                   Nama
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider hidden sm:table-cell">
                   NRP
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider hidden md:table-cell">
                   IPK
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider hidden md:table-cell">
                   Departemen
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider hidden lg:table-cell">
                   No. HP
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider hidden lg:table-cell">
                   Email
                 </th>
               </tr>
@@ -138,7 +138,7 @@ export default function SelectRecipientsPage() {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredRecipients.map((recipient) => (
                 <tr key={recipient.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
                     <input
                       type="checkbox"
                       checked={selectedRecipients.includes(recipient.id)}
@@ -146,14 +146,14 @@ export default function SelectRecipientsPage() {
                       className="h-4 w-4 text-blue-600"
                     />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {recipient.name}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{recipient.nrp}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{recipient.ipk}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{recipient.departemen}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{recipient.noHp}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{recipient.email}</td>
+                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden sm:table-cell">{recipient.nrp}</td>
+                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell">{recipient.ipk}</td>
+                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden md:table-cell">{recipient.departemen}</td>
+                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden lg:table-cell">{recipient.noHp}</td>
+                  <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden lg:table-cell">{recipient.email}</td>
                 </tr>
               ))}
             </tbody>

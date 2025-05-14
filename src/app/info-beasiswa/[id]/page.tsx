@@ -93,25 +93,25 @@ export default function InfoBeasiswaDetailPage({ params }: { params: Promise<{ i
   };
 
   return (
-    <div className="min-h-screen p-6 pt-24 bg-transparent">
+    <div className="min-h-screen p-3 sm:p-4 md:p-6 pt-16 sm:pt-20 md:pt-24 bg-transparent">
       <div className="max-w-4xl mx-auto">
-        <Link href="/info-beasiswa" className="inline-flex items-center text-blue-400 hover:text-blue-300 mb-6">
+        <Link href="/info-beasiswa" className="inline-flex items-center text-sm sm:text-base text-blue-400 hover:text-blue-300 mb-4 sm:mb-6">
           <FiArrowLeft className="mr-2" />
           Kembali ke Daftar Beasiswa
         </Link>
 
         {error && (
-          <div className="bg-red-800 bg-opacity-80 text-white p-4 rounded-lg mb-6">
+          <div className="bg-red-800 bg-opacity-80 text-white p-3 sm:p-4 rounded-lg mb-4 sm:mb-6">
             <p>{error}</p>
           </div>
         )}
 
         {isLoading ? (
-          <div className="flex justify-center items-center p-8">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-400"></div>
+          <div className="flex justify-center items-center p-4 sm:p-6 md:p-8">
+            <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 border-t-2 border-b-2 border-blue-400"></div>
           </div>
         ) : !infoBeasiswa ? (
-          <div className="p-8 text-center text-white bg-gray-900 bg-opacity-80 rounded-lg">
+          <div className="p-4 sm:p-6 md:p-8 text-center text-white bg-gray-900 bg-opacity-80 rounded-lg">
             Info beasiswa tidak ditemukan
           </div>
         ) : (
@@ -121,23 +121,24 @@ export default function InfoBeasiswaDetailPage({ params }: { params: Promise<{ i
                 <img 
                   src={`${API_BASE_URL}/${infoBeasiswa.photo}`} 
                   alt={infoBeasiswa.title} 
-                  className="w-full h-64 object-cover"
+                  className="w-full h-48 sm:h-56 md:h-64 object-cover"
                 />
                 <button 
                   onClick={handleDownloadImage}
-                  className="absolute bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg"
+                  className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg"
                   title="Download Gambar"
                 >
-                  <FiDownload size={24} />
+                  <FiDownload size={20} className="sm:hidden" />
+                  <FiDownload size={24} className="hidden sm:block" />
                 </button>
               </div>
             )}
-            <div className="p-8">
-              <h1 className="text-3xl font-bold text-white mb-2">{infoBeasiswa.title}</h1>
-              <time className="block text-sm text-blue-400 mb-6">{formatDate(infoBeasiswa.date)}</time>
+            <div className="p-4 sm:p-6 md:p-8">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">{infoBeasiswa.title}</h1>
+              <time className="block text-xs sm:text-sm text-blue-400 mb-4 sm:mb-6">{formatDate(infoBeasiswa.date)}</time>
               
-              <div className="prose prose-lg prose-invert max-w-none">
-                <p className="text-gray-300 whitespace-pre-line">{infoBeasiswa.description}</p>
+              <div className="prose prose-sm sm:prose-base md:prose-lg prose-invert max-w-none">
+                <p className="text-sm sm:text-base text-gray-300 whitespace-pre-line">{infoBeasiswa.description}</p>
               </div>
             </div>
           </div>

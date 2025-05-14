@@ -82,27 +82,28 @@ export default function AddInfoBeasiswaPage() {
   };
 
   return (
-    <div>
-      <div className="flex items-center mb-6">
+    <div className="p-3 sm:p-4 md:p-6">
+      <div className="flex items-center mb-4 sm:mb-6">
         <button
           onClick={() => router.push('/dashboard/info-beasiswa')}
-          className="mr-4 text-gray-600 hover:text-gray-900"
+          className="mr-3 sm:mr-4 text-gray-600 hover:text-gray-900"
         >
-          <FiArrowLeft size={24} />
+          <FiArrowLeft size={20} className="sm:hidden" />
+          <FiArrowLeft size={24} className="hidden sm:block" />
         </button>
-        <h1 className="text-3xl font-bold text-gray-800">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
           Tambah Info Beasiswa Baru
         </h1>
       </div>
 
       {error && (
-        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
+        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-3 sm:p-4 mb-4 sm:mb-6">
           <p>{error}</p>
         </div>
       )}
 
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="bg-white rounded-lg shadow-md p-4 sm:p-5 md:p-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
               Judul <span className="text-red-500">*</span>
@@ -113,7 +114,7 @@ export default function AddInfoBeasiswaPage() {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -128,7 +129,7 @@ export default function AddInfoBeasiswaPage() {
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -143,7 +144,7 @@ export default function AddInfoBeasiswaPage() {
               value={formData.description}
               onChange={handleChange}
               rows={6}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             ></textarea>
           </div>
@@ -157,22 +158,22 @@ export default function AddInfoBeasiswaPage() {
               id="photo"
               accept="image/*"
               onChange={handleFileChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <div className="flex justify-end space-x-4">
+          <div className="flex justify-end space-x-3 sm:space-x-4">
             <button
               type="button"
               onClick={() => router.push('/dashboard/info-beasiswa')}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              className="px-3 sm:px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm sm:text-base"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-400"
+              className="flex items-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-400 text-sm sm:text-base"
             >
               <FiSave className="mr-2" />
               {isLoading ? 'Menyimpan...' : 'Simpan'}

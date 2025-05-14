@@ -59,7 +59,17 @@ const API_ENDPOINTS = {
     HOME_EDIT_SECTIONTEXT: {
       GET_SECTION: `${API_BASE_URL}/api/admin/home-edit-sectiontext`,
       UPDATE_SECTION: `${API_BASE_URL}/api/admin/home-edit-sectiontext`,
-    }
+    },
+    // Add this new section at the same level as AUTH, ADMIN, etc.
+    BROADCAST: {
+      LIST: `${API_BASE_URL}/api/broadcast`,
+      DETAIL: (id: string) => `${API_BASE_URL}/api/broadcast/${id}`,
+      CREATE: `${API_BASE_URL}/api/broadcast`,
+      UPDATE: (id: string) => `${API_BASE_URL}/api/broadcast/${id}`,
+      DELETE: (id: string) => `${API_BASE_URL}/api/broadcast/${id}`,
+      SEND: (id: string) => `${API_BASE_URL}/api/broadcast/${id}/send`,
+      TEST_EMAIL: `${API_BASE_URL}/api/broadcast/test-email`
+    },
   }
 };
 
