@@ -1,8 +1,9 @@
-  import React from 'react';
+import React from 'react';
 import axios from 'axios';
 import API_ENDPOINTS, { API_BASE_URL } from '../../utils/api-config';
 import AnimatedPopup from './AnimatedPopup';
 import AnimatedDescription from './AnimatedDescription';
+import Image from 'next/image';
 
 interface Section {
   img: string;
@@ -82,9 +83,11 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         {sections.map((section: Section, index: number) => (
           <div key={index} className="relative rounded-lg shadow-md overflow-hidden">
-            <img
+            <Image
               src={getImageUrl(section.img)}
               alt={section.alt}
+              width={500}
+              height={300}
               className="w-full h-64 object-cover"
             />
             <div className="absolute inset-0 flex flex-col justify-center p-6 text-white">

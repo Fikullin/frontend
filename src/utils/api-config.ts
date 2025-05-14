@@ -1,8 +1,6 @@
 // Base URL API
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL 
 
-// Endpoint API
-// Tambahkan ini ke file api-config.ts yang sudah ada
 const API_ENDPOINTS = {
   AUTH: {
     SIGNIN: `${API_BASE_URL}/api/auth/signin`,
