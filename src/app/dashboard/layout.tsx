@@ -191,7 +191,7 @@ export default function DashboardLayout({
 
       {/* Main content */}
       <div
-        className={`flex-1 overflow-auto bg-white transition-all duration-300 p-6 rounded-l-3xl
+        className={`flex-1 overflow-auto bg-white transition-all duration-300 p-6 pt-16 rounded-l-3xl
           ${collapsed ? 'ml-0 md:ml-20' : 'ml-0 md:ml-64'}
         `}
       >
