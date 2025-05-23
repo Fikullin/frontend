@@ -36,7 +36,7 @@ export default function PenerimaPage() {
   const fetchRecipients = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(API_ENDPOINTS.ADMIN.RECIPIENTS.LIST);
+      const response = await axios.get(`${API_ENDPOINTS.ADMIN.RECIPIENTS.LIST}?limit=1000`);
       setRecipients(response.data.recipients || response.data || []);
       setError('');
     } catch (error) {
@@ -67,59 +67,66 @@ export default function PenerimaPage() {
             Belum ada data penerima beasiswa
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recipients.map((recipient) => (
-              <div key={recipient.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div className="h-48 bg-gray-200 relative">
-                  {recipient.photo ? (
-                    <Image
-                      src={`${API_BASE_URL}/${recipient.photo}`}
-                      alt={recipient.name}
-                      height={48}
-                      width={48}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-700 text-lg font-medium">
-                      Tidak ada foto
+          <>
+            <div className="mb-4 text-white text-center">
+              Menampilkan {recipients.length} penerima beasiswa
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {recipients.map((recipient) => (
+                <div key={recipient.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                  <div className="h-48 bg-gray-200 relative">
+                    {recipient.photo ? (
+                      <Image
+                        src={`${API_BASE_URL}/${recipient.photo}`}
+                        alt={recipient.name}
+                        width={400}
+                        height={192}
+                        className="w-full h-full object-cover"
+                        priority={false}
+                        unoptimized={true}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-700 text-lg font-medium">
+                        Tidak ada foto
+                      </div>
+                    )}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                      <h2 className="text-white text-xl font-bold">{recipient.name}</h2>
+                      <p className="text-white text-sm">{recipient.departemen}</p>
                     </div>
-                  )}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                    <h2 className="text-white text-xl font-bold">{recipient.name}</h2>
-                    <p className="text-white text-sm">{recipient.departemen}</p>
+                  </div>
+                  <div className="p-4 text-gray-800">
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div>
+                        <p className="font-semibold text-gray-900">NRP:</p>
+                        <p className="text-gray-800">{recipient.nrp}</p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">IPK:</p>
+                        <p className="text-gray-800">{recipient.ipk}</p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">Status:</p>
+                        <p className="text-gray-800">{recipient.status === 'Active' ? 'Aktif' : 
+                            recipient.status === 'Inactive' ? 'Tidak Aktif' : 
+                            recipient.status === 'Graduated' ? 'Lulus' : 
+                            recipient.status === 'Suspended' ? 'Ditangguhkan' : recipient.status}</p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">Email:</p>
+                        <p className="truncate text-gray-800">{recipient.email || '-'}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <p className="font-semibold mb-1 text-gray-900">Pekerjaan Saat Ini:</p>
+                      <p className="text-gray-800">{recipient.pekerjaanSaatIni || '-'}</p>
+                    </div>
                   </div>
                 </div>
-                <div className="p-4 text-gray-800">
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div>
-                      <p className="font-semibold text-gray-900">NRP:</p>
-                      <p className="text-gray-800">{recipient.nrp}</p>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">IPK:</p>
-                      <p className="text-gray-800">{recipient.ipk}</p>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Status:</p>
-                      <p className="text-gray-800">{recipient.status === 'Active' ? 'Aktif' : 
-                          recipient.status === 'Inactive' ? 'Tidak Aktif' : 
-                          recipient.status === 'Graduated' ? 'Lulus' : 
-                          recipient.status === 'Suspended' ? 'Ditangguhkan' : recipient.status}</p>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Email:</p>
-                      <p className="truncate text-gray-800">{recipient.email || '-'}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <p className="font-semibold mb-1 text-gray-900">Pekerjaan Saat Ini:</p>
-                    <p className="text-gray-800">{recipient.pekerjaanSaatIni || '-'}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>
